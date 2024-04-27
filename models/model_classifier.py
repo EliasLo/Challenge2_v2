@@ -104,7 +104,7 @@ class ResNet_2(nn.Module):
         out = self.layer4(out)
 
         # Debugging output size before pooling
-        print("Output shape before pooling:", out.shape)
+        #print("Output shape before pooling:", out.shape)
 
         # Adjusting the average pooling size based on the above output
         out = F.adaptive_avg_pool2d(out, (1, 1))  # Ensures output size is [batch size, 512, 1, 1]
@@ -113,7 +113,7 @@ class ResNet_2(nn.Module):
         out = out.view(out.size(0), -1)
 
         # Debugging shape before linear layer to ensure it matches the expected input size of the linear layer
-        print("Output shape before linear layer:", out.shape)
+        #print("Output shape before linear layer:", out.shape)
 
         out = self.linear(out)
         return out
