@@ -159,29 +159,27 @@ class ResNet_3(nn.Module):
     def __init__(self, block, num_blocks, num_classes=50, dropout_rate=0.5):
         super(ResNet_3, self).__init__()
         self.in_planes = 64
-
         self.conv1 = nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(64)
-        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
-        self.dropout = nn.Dropout(dropout_rate)
+        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1, dropout_rate)
+        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2, dropout_rate)
+        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2, dropout_rate)
+        self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2, dropout_rate)
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)
 
-    def _make_layer(self, block, planes, num_blocks, stride):
-        strides = [stride] + [1] * (num_blocks - 1)
+    def _make_layer(self, block, planes, num_blocks, stride, dropout_rate):
         layers = []
-        for stride in strides:
+        for _ in range(num_blocks):
             downsample = None
             if stride != 1 or self.in_planes != planes * block.expansion:
                 downsample = nn.Sequential(
                     nn.Conv2d(self.in_planes, planes * block.expansion, kernel_size=1, stride=stride, bias=False),
                     nn.BatchNorm2d(planes * block.expansion)
                 )
-            layers.append(block(self.in_planes, planes, stride, downsample))
+            layers.append(block(self.in_planes, planes, stride, downsample, dropout_rate))
             self.in_planes = planes * block.expansion
+            stride = 1  # Only the first block per layer may have a stride > 1
         return nn.Sequential(*layers)
 
     def forward(self, x):
@@ -193,14 +191,13 @@ class ResNet_3(nn.Module):
         x = self.layer4(x)
         x = self.avgpool(x)
         x = x.view(x.size(0), -1)
-        x = self.dropout(x)
         x = self.fc(x)
         return x
 
 class BasicBlock_2(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, dropout_rate=0.3):
+    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.3):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -212,15 +209,10 @@ class BasicBlock_2(nn.Module):
         self.relu2 = nn.ReLU(inplace=True)
         self.dropout2 = nn.Dropout2d(dropout_rate)
 
-        self.shortcut = nn.Sequential()
-        if stride != 1 or in_planes != self.expansion * planes:
-            self.shortcut = nn.Sequential(
-                nn.Conv2d(in_planes, self.expansion * planes, kernel_size=1, stride=stride, bias=False),
-                nn.BatchNorm2d(self.expansion * planes)
-            )
+        self.shortcut = downsample if downsample else nn.Sequential()
 
     def forward(self, x):
-        identity = x
+        identity = self.shortcut(x)
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu1(out)
@@ -231,6 +223,6 @@ class BasicBlock_2(nn.Module):
         out = self.relu2(out)
         out = self.dropout2(out)
         
-        out += self.shortcut(identity)
+        out += identity
         out = F.relu(out)
         return out
