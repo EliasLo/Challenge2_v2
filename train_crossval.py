@@ -12,6 +12,7 @@ from functools import partial
 
 from models.model_classifier import ResNet, ResidualBlock
 from models.model_classifier import ResNet_2, BasicBlock   #from me
+from models.model_classifier import ResNet_3, BasicBlock_2 
 from models.utils import EarlyStopping, Tee
 from dataset.dataset_ESC50 import ESC50
 import config
