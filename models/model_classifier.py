@@ -81,7 +81,7 @@ class ResidualBlock(nn.Module):
 
 ### ResNet_3 with dropout layer
 class ResNet_3(nn.Module):
-    def __init__(self, block, num_blocks, num_classes=50, dropout_rate=0.25):
+    def __init__(self, block, num_blocks, num_classes=50, dropout_rate=0.10):
         super(ResNet_3, self).__init__()
         self.in_planes = 64
         self.conv1 = nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1, bias=False)
@@ -123,7 +123,7 @@ class ResNet_3(nn.Module):
 class BasicBlock_2(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.25):
+    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.10):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
