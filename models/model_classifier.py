@@ -75,27 +75,36 @@ class ResidualBlock(nn.Module):
 
 ### Other models then the base model of professor
 
-class ResNet_2(nn.Module):
-    def __init__(self, block, num_blocks, num_classes=50):
-        super(ResNet_2, self).__init__()
+
+class ResNet_3(nn.Module):
+    def __init__(self, block, num_blocks, num_classes=50, dropout_rate=0.5):
+        super(ResNet_3, self).__init__()
         self.in_planes = 64
 
         self.conv1 = nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(64)
-        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
-        self.linear = nn.Linear(512 * block.expansion, num_classes)
+        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1, dropout_rate)
+        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2, dropout_rate)
+        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2, dropout_rate)
+        self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2, dropout_rate)
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.fc = nn.Linear(512 * block.expansion, num_classes)
 
-    def _make_layer(self, block, planes, num_blocks, stride):
-        strides = [stride] + [1]*(num_blocks-1)
+
+    def _make_layer(self, block, planes, num_blocks, stride, dropout_rate):
+        strides = [stride] + [1] * (num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
+            downsample = None
+            if stride != 1 or self.in_planes != planes * block.expansion:
+                downsample = nn.Sequential(
+                    nn.Conv2d(self.in_planes, planes * block.expansion, kernel_size=1, stride=stride, bias=False),
+                    nn.BatchNorm2d(planes * block.expansion)
+                )
+            layers.append(block(self.in_planes, planes, stride, downsample, dropout_rate))
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
-
+    
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.layer1(out)
