@@ -161,6 +161,20 @@ class ResNet_3(nn.Module):
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)
 
+    def _make_layer(self, block, planes, num_blocks, stride):
+        strides = [stride] + [1] * (num_blocks - 1)
+        layers = []
+        for stride in strides:
+            downsample = None
+            if stride != 1 or self.in_planes != planes * block.expansion:
+                downsample = nn.Sequential(
+                    nn.Conv2d(self.in_planes, planes * block.expansion, kernel_size=1, stride=stride, bias=False),
+                    nn.BatchNorm2d(planes * block.expansion)
+                )
+            layers.append(block(self.in_planes, planes, stride, downsample))
+            self.in_planes = planes * block.expansion
+        return nn.Sequential(*layers)
+
     def forward(self, x):
         x = self.conv1(x)
         x = F.relu(self.bn1(x))
@@ -174,15 +188,11 @@ class ResNet_3(nn.Module):
         x = self.fc(x)
         return x
 
-
-
-
-
 class BasicBlock_2(nn.Module):
     expansion = 1
 
     def __init__(self, in_planes, planes, stride=1, dropout_rate=0.3):
-        super(BasicBlock, self).__init__()
+        super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu1 = nn.ReLU(inplace=True)
