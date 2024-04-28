@@ -123,17 +123,16 @@ class ResNet_3(nn.Module):
 class BasicBlock_2(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.3):
+    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.2):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu1 = nn.ReLU(inplace=True)
-        self.dropout1 = nn.Dropout2d(dropout_rate)
         
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(planes)
         self.relu2 = nn.ReLU(inplace=True)
-        self.dropout2 = nn.Dropout2d(dropout_rate)
+        self.dropout = nn.Dropout2d(dropout_rate)  # Apply dropout here, after the second ReLU
 
         self.shortcut = downsample if downsample else nn.Sequential()
 
@@ -142,13 +141,12 @@ class BasicBlock_2(nn.Module):
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu1(out)
-        out = self.dropout1(out)
         
         out = self.conv2(out)
         out = self.bn2(out)
         out = self.relu2(out)
-        out = self.dropout2(out)
         
         out += identity
+        out = self.dropout(out)  # Apply dropout after adding the shortcut connection
         out = F.relu(out)
         return out
