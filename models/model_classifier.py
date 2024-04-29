@@ -123,7 +123,7 @@ class ResNet_3(nn.Module):
 class BasicBlock_2(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.07):
+    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.03):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
