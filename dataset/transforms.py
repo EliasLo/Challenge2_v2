@@ -207,17 +207,15 @@ class TimeMask_2:
         self.numbers = numbers
 
     def addTimeMask(self, wave):
-        # Ensure wave has three dimensions [batch, channels, length]
-        if wave.dim() != 3:
-            raise ValueError(f"Expected wave to have 3 dimensions [batch, channels, length] but got {wave.dim()} dimensions.")
-        
-        batch_size, channels, length = wave.shape
+        if wave.dim() == 2:
+            wave = wave.unsqueeze(0)
         for _ in range(self.numbers):
             mask_len = random.randint(0, self.max_width)
-            start = random.randint(0, length - mask_len)
+            start = random.randint(0, wave.size(2) - mask_len)
             end = start + mask_len
-            wave[:, start:end, :] = 0
-
+            wave[:, :, start:end] = 0
+        if wave.size(0) == 1:
+            wave = wave.squeeze(0)
         return wave
 
     def __call__(self, wave):
