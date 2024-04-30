@@ -175,6 +175,50 @@ class TimeMask():
         return self.addTimeMask(wave)
 
 
+class FrequencyMask_2:
+    def __init__(self, max_width, numbers):
+        self.max_width = max_width
+        self.numbers = numbers
+
+    def addFreqMask(self, wave):
+        # Ensure wave has three dimensions [batch, channels, length]
+        if wave.dim() != 3:
+            raise ValueError(f"Expected wave to have 3 dimensions [batch, channels, length] but got {wave.dim()} dimensions.")
+        
+        batch_size, channels, length = wave.shape
+        for _ in range(self.numbers):
+            mask_len = random.randint(0, self.max_width)
+            start = random.randint(0, length - mask_len)
+            end = start + mask_len
+            wave[:, :, start:end] = 0
+
+        return wave
+
+    def __call__(self, wave):
+        return self.addFreqMask(wave)
+
+class TimeMask_2:
+    def __init__(self, max_width, numbers):
+        self.max_width = max_width
+        self.numbers = numbers
+
+    def addTimeMask(self, wave):
+        # Ensure wave has three dimensions [batch, channels, length]
+        if wave.dim() != 3:
+            raise ValueError(f"Expected wave to have 3 dimensions [batch, channels, length] but got {wave.dim()} dimensions.")
+        
+        batch_size, channels, length = wave.shape
+        for _ in range(self.numbers):
+            mask_len = random.randint(0, self.max_width)
+            start = random.randint(0, length - mask_len)
+            end = start + mask_len
+            wave[:, start:end, :] = 0
+
+        return wave
+
+    def __call__(self, wave):
+        return self.addTimeMask(wave)
+
 
 
 
