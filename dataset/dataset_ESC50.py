@@ -94,7 +94,7 @@ class ESC50(data.Dataset):
             self.wave_transforms = transforms.Compose(
                 torch.Tensor,
                 #transforms.RandomScale(max_scale=1.25),
-                transforms.RandomNoise(min_noise = 0.002, max_noise = 0.01),                              # added by me
+                transforms.RandomNoise(min_noise = 0.002, max_noise = 0.02),  #instead0.01                            # added by me
                 transforms.RandomPadding(out_len=220500), # original out_len=220500?
                 transforms.RandomCrop(out_len=220500)     # original out_len=220500?   
             )
