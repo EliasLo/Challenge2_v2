@@ -97,8 +97,8 @@ class ESC50(data.Dataset):
                 transforms.RandomNoise(min_noise = 0.002, max_noise = 0.02),  #instead0.01                            # added by me
                 transforms.RandomPadding(out_len=220500), # original out_len=220500?
                 transforms.RandomCrop(out_len=220500),     # original out_len=220500?
-                transforms.FrequencyMask_2(max_width = 7 , numbers = 1),
-                transforms.TimeMask_2(max_width= 30 , numbers = 1)
+                transforms.FrequencyMask_2(max_width = 12 , numbers = 1),
+                transforms.TimeMask_2(max_width= 45 , numbers = 1)
             )
 
             self.spec_transforms = transforms.Compose(
