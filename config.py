@@ -9,7 +9,7 @@ n_classes = 50
 folds = 5
 test_folds = [1, 2, 3, 4, 5]
 # ratio to split off from training data
-val_size = .275  # could be changed # 0.2 original # instead 0.25
+val_size = .25  # could be changed # 0.2 original # instead 0.25
 
 
 # model_constructor = "ResNet(block=ResidualBlock, layers=[2, 2, 2, 2], num_classes=config.n_classes)"
@@ -34,5 +34,5 @@ patience = 20 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
 warm_epochs = 10
-gamma = 0.965   #0.80 original  #instead 0.96
+gamma = 0.96   #0.80 original  #instead 0.96
 step_size = 5
