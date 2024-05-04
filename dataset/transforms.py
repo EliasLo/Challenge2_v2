@@ -223,29 +223,36 @@ class TimeMask_2:
 
 
 
-class PitchShifter:
-    def __init__(self, sample_rate, n_steps_min, n_steps_max):
+class RandomPitchShift:
+    def __init__(self, sample_rate, n_steps_min=-4, n_steps_max=4):
         """
-        Initializes the PitchShifter class.
-        :param sample_rate: The sampling rate of the audio file.
-        :param n_steps_min: The minimum number of semitones the pitch can be shifted.
-        :param n_steps_max: The maximum number of semitones the pitch can be shifted.
+        Initializes the pitch shifting transformation.
+        :param sample_rate: Sampling rate of the audio files.
+        :param n_steps_min: Minimum pitch shift in semitones (can be negative).
+        :param n_steps_max: Maximum pitch shift in semitones (can be positive).
         """
         self.sample_rate = sample_rate
         self.n_steps_min = n_steps_min
         self.n_steps_max = n_steps_max
 
-    def shift_pitch(self, wave):
+    def __call__(self, x):
         """
-        Shifts the pitch of the audio waveform.
-        :param wave: A numpy array containing the audio waveform.
-        :return: A numpy array containing the pitch-shifted audio waveform.
+        Applies pitch shifting to the input tensor.
+        :param x: Input torch.Tensor (1D).
+        :return: Pitch-shifted audio as torch.Tensor (1D).
         """
-        n_steps = random.randint(self.n_steps_min, self.n_steps_max)
-        return librosa.effects.pitch_shift(wave, sr=self.sample_rate, n_steps=n_steps)
+        if not isinstance(x, np.ndarray):
+            # Convert torch.Tensor to numpy array if not already
+            x = x.numpy()
 
-    def __call__(self, wave):
-        return self.shift_pitch(wave)
+        # Generate a random pitch shift value
+        n_steps = random.uniform(self.n_steps_min, self.n_steps_max)
+        
+        # Apply pitch shifting using librosa
+        x_pitch_shifted = librosa.effects.pitch_shift(x, sr=self.sample_rate, n_steps=n_steps)
+        
+        # Convert numpy array back to torch.Tensor
+        return torch.from_numpy(x_pitch_shifted)
 
 
 
