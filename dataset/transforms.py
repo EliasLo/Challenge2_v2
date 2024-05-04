@@ -223,6 +223,8 @@ class TimeMask_2:
 
 class PitchShifter:
     def __init__(self, sample_rate = 44100, n_steps_min =-4, n_steps_max =4):
+        if not isinstance(wave, np.ndarray):
+            wave = np.array(wave, dtype=np.float32)  # Ensure wave is a numpy array
         """
         Initializes the PitchShifter class.
         :param sample_rate: The sampling rate of the audio file.
