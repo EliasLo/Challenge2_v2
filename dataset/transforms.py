@@ -239,10 +239,13 @@ class PitchShifter:
         :param wave: A numpy array containing the audio waveform.
         :return: A numpy array containing the pitch-shifted audio waveform.
         """
-        if not isinstance(wave, np.ndarray):
-            wave = np.array(wave, dtype=np.float32)  # Ensure wave is a numpy array
+        if isinstance(wave, torch.Tensor):
+            wave = wave.numpy()  # Ensure wave is a numpy array for librosa processing
+
         n_steps = random.randint(self.n_steps_min, self.n_steps_max)
-        return librosa.effects.pitch_shift(wave, sr=self.sample_rate, n_steps=n_steps)
+        shifted_wave = librosa.effects.pitch_shift(wave, sr=self.sample_rate, n_steps=n_steps)
+        
+        return torch.from_numpy(shifted_wave).float()  # Convert back to tensor
 
     def __call__(self, wave):
         """
@@ -251,6 +254,7 @@ class PitchShifter:
         :return: Pitch-shifted audio waveform.
         """
         return self.shift_pitch(wave)
+
 
 
 
