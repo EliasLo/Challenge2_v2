@@ -222,9 +222,7 @@ class TimeMask_2:
         return self.addTimeMask(wave)
 
 class PitchShifter:
-    def __init__(self, sample_rate = 44100, n_steps_min =-4, n_steps_max =4):
-        if not isinstance(wave, np.ndarray):
-            wave = np.array(wave, dtype=np.float32)  # Ensure wave is a numpy array
+    def __init__(self, sample_rate=44100, n_steps_min=-4, n_steps_max=4):
         """
         Initializes the PitchShifter class.
         :param sample_rate: The sampling rate of the audio file.
@@ -241,10 +239,17 @@ class PitchShifter:
         :param wave: A numpy array containing the audio waveform.
         :return: A numpy array containing the pitch-shifted audio waveform.
         """
+        if not isinstance(wave, np.ndarray):
+            wave = np.array(wave, dtype=np.float32)  # Ensure wave is a numpy array
         n_steps = random.randint(self.n_steps_min, self.n_steps_max)
         return librosa.effects.pitch_shift(wave, sr=self.sample_rate, n_steps=n_steps)
 
     def __call__(self, wave):
+        """
+        Callable interface to apply the pitch shift to an audio waveform.
+        :param wave: The audio waveform to shift.
+        :return: Pitch-shifted audio waveform.
+        """
         return self.shift_pitch(wave)
 
 
