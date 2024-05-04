@@ -99,7 +99,7 @@ class ESC50(data.Dataset):
                 transforms.RandomCrop(out_len=220500),     # original out_len=220500?
                 transforms.FrequencyMask_2(max_width = 10 , numbers = 1),
                 transforms.TimeMask_2(max_width= 35 , numbers = 1),
-                transforms.PitchShifter()
+
                 
             )
 
