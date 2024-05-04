@@ -94,12 +94,12 @@ class ESC50(data.Dataset):
             self.wave_transforms = transforms.Compose(
                 torch.Tensor,
                 transforms.RandomScale(max_scale=1.25),
-                transforms.RandomNoise(min_noise = 0.002, max_noise = 0.02),  #instead0.01                            # added by me
+                transforms.RandomNoise(min_noise = 0.005, max_noise = 0.02),  #instead0.01                            # added by me
                 transforms.RandomPadding(out_len=220500), # original out_len=220500?
                 transforms.RandomCrop(out_len=220500),     # original out_len=220500?
                 transforms.FrequencyMask_2(max_width = 10 , numbers = 1),
-                transforms.TimeMask_2(max_width= 35 , numbers = 1),
-                transforms.RandomPitchShift(sample_rate=44100, n_steps_min=-4, n_steps_max=4)
+                transforms.TimeMask_2(max_width= 35 , numbers = 1)
+                
             )
 
             self.spec_transforms = transforms.Compose(
