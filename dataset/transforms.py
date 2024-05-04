@@ -221,39 +221,8 @@ class TimeMask_2:
     def __call__(self, wave):
         return self.addTimeMask(wave)
 
-class PitchShifter:
-    def __init__(self, sample_rate=44100, n_steps_min=-4, n_steps_max=4):
-        """
-        Initializes the PitchShifter class.
-        :param sample_rate: The sampling rate of the audio file.
-        :param n_steps_min: The minimum number of semitones the pitch can be shifted.
-        :param n_steps_max: The maximum number of semitones the pitch can be shifted.
-        """
-        self.sample_rate = sample_rate
-        self.n_steps_min = n_steps_min
-        self.n_steps_max = n_steps_max
 
-    def shift_pitch(self, wave):
-        """
-        Shifts the pitch of the audio waveform.
-        :param wave: A numpy array containing the audio waveform.
-        :return: A numpy array containing the pitch-shifted audio waveform.
-        """
-        if isinstance(wave, torch.Tensor):
-            wave = wave.numpy()  # Ensure wave is a numpy array for librosa processing
 
-        n_steps = random.randint(self.n_steps_min, self.n_steps_max)
-        shifted_wave = librosa.effects.pitch_shift(wave, sr=self.sample_rate, n_steps=n_steps)
-        
-        return torch.from_numpy(shifted_wave).float()  # Convert back to tensor
-
-    def __call__(self, wave):
-        """
-        Callable interface to apply the pitch shift to an audio waveform.
-        :param wave: The audio waveform to shift.
-        :return: Pitch-shifted audio waveform.
-        """
-        return self.shift_pitch(wave)
 
 
 
