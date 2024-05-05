@@ -14,7 +14,7 @@ val_size = .3  # could be changed # 0.2 original # instead 0.25
 
 # model_constructor = "ResNet(block=ResidualBlock, layers=[2, 2, 2, 2], num_classes=config.n_classes)"
 # model_constructor = "ResNet(block=ResidualBlock, layers=[3, 4, 6, 3], num_classes=config.n_classes)"
-model_constructor = "ResNet_3(BasicBlock_2, [1, 2, 2, 1])"
+model_constructor = "ResNet_3(BasicBlock_2, [1, 2, 2, 2])"
 
 # model checkpoints loaded for testing
 test_checkpoints = ['terminal.pt']  # ['terminal.pt', 'best_val_loss.pt']
