@@ -14,7 +14,7 @@ val_size = .2  # could be changed # 0.2 original # instead 0.25
 
 # model_constructor = "ResNet(block=ResidualBlock, layers=[2, 2, 2, 2], num_classes=config.n_classes)"
 # model_constructor = "ResNet(block=ResidualBlock, layers=[3, 4, 6, 3], num_classes=config.n_classes)"
-model_constructor = "ResNet_3(BasicBlock_2, [2, 2, 3, 3])"
+model_constructor = "ResNet_3(BasicBlock_2, [3, 2, 2, 4])"
 
 # model checkpoints loaded for testing
 test_checkpoints = ['terminal.pt']  # ['terminal.pt', 'best_val_loss.pt']
@@ -29,7 +29,7 @@ device_id = 0
 batch_size = 32
 num_workers = 4 # for kaggle
 persistent_workers = True
-epochs = 120 #120 #200 original
+epochs = 200 #120 #200 original
 patience = 20 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
