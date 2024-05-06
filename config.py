@@ -14,7 +14,7 @@ val_size = .2  # could be changed # 0.2 original # instead 0.25
 
 # model_constructor = "ResNet(block=ResidualBlock, layers=[2, 2, 2, 2], num_classes=config.n_classes)"
 # model_constructor = "ResNet(block=ResidualBlock, layers=[3, 4, 6, 3], num_classes=config.n_classes)"
-model_constructor = "ResNet_3(BasicBlock_2, [3, 2, 2, 4])" 
+model_constructor = "ResNet_3(BasicBlock_2, [3, 3, 2, 4])" 
 
 
 # model checkpoints loaded for testing
@@ -35,5 +35,5 @@ patience = 30 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
 warm_epochs = 10
-gamma = 0.980   #0.80 original  #instead 0.96
+gamma = 0.985   #0.80 original  #instead 0.96
 step_size = 5
