@@ -7,7 +7,7 @@ disable_bat_pbar = False#True
 # do not change this block
 n_classes = 50
 folds = 5
-test_folds = [1, 2, 3, 4, 5]
+test_folds = [2,3]#[1, 2, 3, 4, 5]
 # ratio to split off from training data
 val_size = .10  # could be changed # 0.2 original # instead 0.25
 
@@ -31,7 +31,7 @@ batch_size = 32
 num_workers = 4 # 4 # for kaggle
 persistent_workers = True
 epochs = 250 #120 #200 original
-patience = 30 # 20 original
+patience = 50 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
 warm_epochs = 10
