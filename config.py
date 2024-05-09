@@ -28,7 +28,7 @@ sr = 44100
 
 device_id = 0
 batch_size = 32
-num_workers = 4 # 4 # for kaggle
+num_workers = 3 # 4 # for kaggle
 persistent_workers = True
 epochs = 250 #120 #200 original
 patience = 50 # 20 original
