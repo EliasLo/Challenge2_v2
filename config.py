@@ -28,12 +28,12 @@ sr = 44100
 
 device_id = 0
 batch_size = 32
-num_workers = 3 # 4 # for kaggle
+num_workers = 2 # 4 # for kaggle
 persistent_workers = True
 epochs = 300 #120 #200 original
 patience = 70 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
 warm_epochs = 10
-gamma = 0.97   #0.80 original  #instead 0.96
+gamma = 0.985   #0.80 original  #instead 0.96
 step_size = 5
