@@ -7,7 +7,7 @@ disable_bat_pbar = False#True
 # do not change this block
 n_classes = 50
 folds = 5
-test_folds = [4]#[1, 2, 3, 4, 5]
+test_folds = [1]#[1, 2, 3, 4, 5]
 # ratio to split off from training data
 val_size = .10  # could be changed # 0.2 original # instead 0.25
 
