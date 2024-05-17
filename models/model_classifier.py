@@ -129,7 +129,7 @@ class ResNet_3(nn.Module):
 
 
 class BasicBlock_2(nn.Module):
-        def __init__(self, in_channels, out_channels, stride=1, downsample=None, dropout_rate=0.2):
+    def __init__(self, in_channels, out_channels, stride=1, downsample=None, dropout_rate=0.2):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1),
