@@ -35,5 +35,5 @@ patience = 50 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
 warm_epochs = 10
-gamma = 0.96   #0.80 original  #instead 0.96
+gamma = 0.92   #0.80 original  #instead 0.96
 step_size = 5
