@@ -130,7 +130,7 @@ class ResNet_3(nn.Module):
 class BasicBlock_2(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.3):
+    def __init__(self, in_planes, planes, stride=1, downsample=None, dropout_rate=0.25):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False),
