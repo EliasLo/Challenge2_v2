@@ -130,49 +130,6 @@ class RandomPadding:
         return self.random_pad(x) if x.shape[-1] < self.out_len else x
 
 
-class FrequencyMask():
-    def __init__(self, max_width, numbers):
-        super(FrequencyMask, self).__init__()
-
-        self.max_width = max_width
-        self.numbers = numbers
-
-    def addFreqMask(self, wave):
-        #print(wave.shape)
-        for _ in range(self.numbers):
-            #choose the length of mask
-            mask_len = random.randint(0, self.max_width)
-            start = random.randint(0, wave.shape[1] - mask_len) #start of the mask
-            end = start + mask_len
-            wave[:, start:end, : ] = 0
-
-        return wave
-
-    def __call__(self, wave):
-        return self.addFreqMask(wave)
-
-
-class TimeMask():
-    def __init__(self, max_width, numbers):
-        super(TimeMask, self).__init__()
-
-        self.max_width = max_width
-        self.numbers = numbers
-
-
-    def addTimeMask(self, wave):
-
-        for _ in range(self.numbers):
-            #choose the length of mask
-            mask_len = random.randint(0, self.max_width)
-            start = random.randint(0, wave.shape[2] - mask_len) #start of the mask
-            end = start + mask_len
-            wave[ : , : , start:end] = 0
-
-        return wave
-
-    def __call__(self, wave):
-        return self.addTimeMask(wave)
 
 
 class FrequencyMask_2():
@@ -221,6 +178,56 @@ class TimeMask_2:
     def __call__(self, wave):
         return self.addTimeMask(wave)
 
+
+
+
+
+
+#funktionieren nicht
+
+class FrequencyMask():
+    def __init__(self, max_width, numbers):
+        super(FrequencyMask, self).__init__()
+
+        self.max_width = max_width
+        self.numbers = numbers
+
+    def addFreqMask(self, wave):
+        #print(wave.shape)
+        for _ in range(self.numbers):
+            #choose the length of mask
+            mask_len = random.randint(0, self.max_width)
+            start = random.randint(0, wave.shape[1] - mask_len) #start of the mask
+            end = start + mask_len
+            wave[:, start:end, : ] = 0
+
+        return wave
+
+    def __call__(self, wave):
+        return self.addFreqMask(wave)
+
+
+class TimeMask():
+    def __init__(self, max_width, numbers):
+        super(TimeMask, self).__init__()
+
+        self.max_width = max_width
+        self.numbers = numbers
+
+
+    def addTimeMask(self, wave):
+
+        for _ in range(self.numbers):
+            #choose the length of mask
+            mask_len = random.randint(0, self.max_width)
+            start = random.randint(0, wave.shape[2] - mask_len) #start of the mask
+            end = start + mask_len
+            wave[ : , : , start:end] = 0
+
+        return wave
+
+    def __call__(self, wave):
+        return self.addTimeMask(wave)
 
 
 
