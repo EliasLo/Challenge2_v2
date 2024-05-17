@@ -9,7 +9,7 @@ n_classes = 50
 folds = 5
 test_folds = [1,2,3,4,5]#[1, 2, 3, 4, 5]
 # ratio to split off from training data
-val_size = .20  # could be changed # 0.2 original # instead 0.25
+val_size = .15  # could be changed # 0.2 original # instead 0.25
 
 
 #model_constructor = "ResNet(block=ResidualBlock, layers=[2, 2, 2, 2], num_classes=config.n_classes)"
@@ -30,7 +30,7 @@ device_id = 0
 batch_size = 32
 num_workers = 22 # 4 # for kaggle
 persistent_workers = True
-epochs = 160 #120 #200 original
+epochs = 200 #120 #200 original
 patience = 50 # 20 original
 lr = 1e-3
 weight_decay = 1e-3
