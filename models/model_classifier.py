@@ -85,7 +85,7 @@ class ResNet_3(nn.Module):
         super(ResNet_3, self).__init__()
         self.in_planes = 64
         self.conv1 = nn.Sequential(
-            nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False),
+            nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True)
         )
