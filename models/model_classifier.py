@@ -95,21 +95,21 @@ class ResNet_3(nn.Module):
 
     def _make_layer(self, block, planes, num_blocks, stride, dropout_rate):
         layers = []
-        for _ in range(num_blocks):
-            downsample = None
-            if stride != 1 or self.in_planes != planes * block.expansion:
-                downsample = nn.Sequential(
-                    nn.Conv2d(self.in_planes, planes * block.expansion, kernel_size=1, stride=stride, bias=False),
-                    nn.BatchNorm2d(planes * block.expansion)
-                )
-            layers.append(block(self.in_planes, planes, stride, downsample, dropout_rate))
-            self.in_planes = planes * block.expansion
-            stride = 1  # Only the first block per layer may have a stride > 1
+        downsample = None
+        if stride != 1 or self.in_planes != planes * block.expansion:
+            downsample = nn.Sequential(
+                nn.Conv2d(self.in_planes, planes * block.expansion, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(planes * block.expansion)
+            )
+        layers.append(block(self.in_planes, planes, stride, downsample, dropout_rate))
+        self.in_planes = planes * block.expansion
+        for _ in range(1, num_blocks):
+            layers.append(block(self.in_planes, planes, dropout_rate=dropout_rate))
         return nn.Sequential(*layers)
 
     def forward(self, x):
         x = self.conv1(x)
-        x = F.relu(self.bn1(x))
+        x = F.relu(self.bn1(x), inplace=True)  # Use inplace ReLU
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
@@ -127,11 +127,11 @@ class BasicBlock_2(nn.Module):
         super(BasicBlock_2, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(planes)
-        self.dropout1 = nn.Dropout2d(dropout_rate)
+        self.dropout1 = nn.Dropout2d(dropout_rate) if dropout_rate > 0 else nn.Identity()
         
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.dropout2 = nn.Dropout2d(dropout_rate)
+        self.dropout2 = nn.Dropout2d(dropout_rate) if dropout_rate > 0 else nn.Identity()
 
         self.shortcut = downsample if downsample else nn.Sequential()
 
@@ -139,13 +139,13 @@ class BasicBlock_2(nn.Module):
         identity = self.shortcut(x)
         
         out = self.conv1(x)
-        out = F.relu(self.bn1(out), inplace=False)  # Change ReLU to non-inplace
+        out = F.relu(self.bn1(out), inplace=True)  # Use inplace ReLU
         out = self.dropout1(out)
         
         out = self.conv2(out)
-        out = F.relu(self.bn2(out), inplace=False)  # Change ReLU to non-inplace
+        out = F.relu(self.bn2(out), inplace=True)  # Use inplace ReLU
         out = self.dropout2(out)
         
         out += identity
-        out = F.relu(out, inplace=False)  # Change ReLU to non-inplace
+        out = F.relu(out, inplace=True)  # Use inplace ReLU
         return out
