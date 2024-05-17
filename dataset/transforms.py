@@ -179,6 +179,29 @@ class TimeMask_2:
         return self.addTimeMask(wave)
 
 
+class RandomReverse:
+    def __init__(self, p=0.5):
+        self.p = p
+
+    def __call__(self, wave):
+        if random.random() < self.p:
+            return wave.flip(-1)
+        return wave
+
+
+class RandomGain:
+    def __init__(self, min_gain=0.9, max_gain=1.1):
+        self.min_gain = min_gain
+        self.max_gain = max_gain
+
+    def __call__(self, wave):
+        gain = random.uniform(self.min_gain, self.max_gain)
+        return wave * gain
+
+
+
+
+
 
 
 
