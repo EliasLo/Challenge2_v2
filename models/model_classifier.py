@@ -99,7 +99,7 @@ class ResNet_3(nn.Module):
             nn.Linear(512, num_classes)
         )
 
-    def _make_layer(self, block, planes, blocks, stride=1, dropout_rate=0.3):
+    def _make_layer(self, block, planes, blocks, stride=1, dropout_rate=0.2):
         downsample = None
         if stride != 1 or self.inplanes != planes:
             downsample = nn.Sequential(
@@ -129,7 +129,7 @@ class ResNet_3(nn.Module):
 
 
 class BasicBlock_2(nn.Module):
-        def __init__(self, in_channels, out_channels, stride=1, downsample=None, dropout_rate=0.3):
+        def __init__(self, in_channels, out_channels, stride=1, downsample=None, dropout_rate=0.2):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1),
