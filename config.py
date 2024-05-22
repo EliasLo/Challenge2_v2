@@ -21,7 +21,7 @@ model_constructor = "ResNet_3(BasicBlock_2, [3, 2, 2, 3])"
 test_checkpoints =  ['terminal.pt', 'best_val_loss.pt']  #['terminal.pt']
 # experiment folder used for testing (result from cross validation training)
 #test_experiment = 'results/2024-04-01-00-00'
-test_experiment = 'results/results'
+test_experiment = 'results/2024-05-22-15-07'
 
 # sampling rate for waves
 sr = 44100
