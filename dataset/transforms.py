@@ -200,7 +200,18 @@ class RandomGain:
 
 
 
+class RandomPitchShift:
+    def __init__(self, max_steps=4):
+        self.max_steps = max_steps
 
+    def pitch_shift(self, wave, sr):
+        steps = np.random.uniform(-self.max_steps, self.max_steps)
+        shifted_wave = librosa.effects.pitch_shift(wave.numpy(), sr, steps)
+        return torch.from_numpy(shifted_wave)
+
+    def __call__(self, wave):
+        sr = 44100  # Assuming a fixed sample rate; adjust if needed
+        return self.pitch_shift(wave, sr)
 
 
 
