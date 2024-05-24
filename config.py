@@ -27,10 +27,10 @@ test_experiment = 'results/2024-05-22-15-07'
 sr = 44100
 
 device_id = 0
-batch_size = 32
+batch_size = 26
 num_workers = 4 # 4 # for kaggle
 persistent_workers = True
-epochs = 215           #best so far: 200
+epochs = 160           #best so far: 200
 patience = 80          #best so far: 50
 lr = 1e-3              
 weight_decay = 8e-3    #best so far: 1e-3
