@@ -35,5 +35,5 @@ patience = 80          #best so far: 50
 lr = 1e-3              
 weight_decay = 8e-3    #best so far: 1e-3
 warm_epochs = 10
-gamma = 0.94    #0.975
+gamma = 0.96           #0.94 for 79.8 #0.975 79.6
 step_size = 5
