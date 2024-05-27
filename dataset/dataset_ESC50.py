@@ -101,7 +101,7 @@ class ESC50(data.Dataset):
                 transforms.TimeMask_2(max_width= 35 , numbers = 1),
                 transforms.RandomGain(min_gain=0.8, max_gain=1.2),
                 transforms.RandomReverse(p=0.25),
-                transforms.RandomPitchShift(max_step = 4)
+                transforms.RandomPitchShift(max_steps = 4)
                 
             )
 
