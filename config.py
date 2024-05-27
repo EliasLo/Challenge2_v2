@@ -7,7 +7,7 @@ disable_bat_pbar = False#True
 # do not change this block
 n_classes = 50
 folds = 5
-test_folds = [3]#[1, 2, 3, 4, 5]
+test_folds = [1,2,3,4,5]#[1, 2, 3, 4, 5]
 # ratio to split off from training data
 val_size = .15  # could be changed # 0.2 original # instead 0.25
 
@@ -21,7 +21,7 @@ model_constructor = "ResNet_3(BasicBlock_2, [3, 4, 2, 4])"
 test_checkpoints =  ['terminal.pt', 'best_val_loss.pt']  #['terminal.pt']
 # experiment folder used for testing (result from cross validation training)
 #test_experiment = 'results/2024-04-01-00-00'
-test_experiment = 'results/2024-05-22-15-07'
+test_experiment = 'results/results'
 
 # sampling rate for waves
 sr = 44100
