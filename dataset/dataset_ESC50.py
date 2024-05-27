@@ -100,8 +100,8 @@ class ESC50(data.Dataset):
                 transforms.FrequencyMask_2(max_width = 10 , numbers = 1),
                 transforms.TimeMask_2(max_width= 35 , numbers = 1),
                 transforms.RandomGain(min_gain=0.8, max_gain=1.2),
-                transforms.RandomReverse(p=0.5)
-
+                transforms.RandomReverse(p=0.25),
+                transforms.RandomPitchShift(max_step = 4)
                 
             )
 
