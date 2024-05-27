@@ -206,12 +206,13 @@ class RandomPitchShift:
 
     def pitch_shift(self, wave, sr):
         steps = np.random.uniform(-self.max_steps, self.max_steps)
-        shifted_wave = librosa.effects.pitch_shift(wave.numpy(), sr, steps)
+        shifted_wave = librosa.effects.pitch_shift(wave.numpy(), sr, n_steps=steps)  # Fixing the call
         return torch.from_numpy(shifted_wave)
 
     def __call__(self, wave):
-        sr = 44100  # Assuming a fixed sample rate; adjust if needed
+        sr = 44100  
         return self.pitch_shift(wave, sr)
+
 
 
 
